@@ -1,0 +1,4 @@
+[ballet]  {2022-10-10 20:00} (Darmstadt) #100 €30
+[cinema]  {2022-12-30 20:00} (Frankfurt) #50  €10
+[concert] {2022-11-01 20:00} (Darmstadt) #100 €20
+[theatre] {2022-09-01 20:00} (Darmstadt) #80  €25

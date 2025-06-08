@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Verfügbare Veranstaltungen</h1>
+    <p th:if="${buyer != null}" th:text="'Hallo, ' + ${buyer.login}" class="lead"></p>
+    <p th:unless="${buyer != null}" class="text-danger">Sie müssen sich anmelden, um Tickets zu kaufen.</p>
+
+    <div class="form-group">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Veranstaltungsname</th>
+                <th scope="col">Datum</th>
+                <th scope="col">Stadt</th>
+                <th scope="col">Preis (€)</th>
+                <th scope="col">Maximale Tickets</th>
+                <th scope="col">Verkaufte Tickets</th>
+                <th scope="col">Auswählen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${events != null and not #lists.isEmpty(events)}" th:each="event : ${events}">
+                <td th:text="${event.name}"></td>
+                <td th:text="${event.date}"></td>
+                <td th:text="${event.city}"></td>
+                <td th:text="${event.price}"></td>
+                <td th:text="${event.maxNumberOfTickets}"></td>
+                <td th:text="${event.actualNumberOfTickets}"></td>
+                <td>
+                    <form th:action="@{/booking}" method="get">
+                        <input type="hidden" name="eid" th:value="${event.id}">
+                        <input type="hidden" name="bid" th:if="${buyer != null}" th:value="${buyer.id}">
+                        <button type="submit" class="btn btn-success"
+                                th:disabled="${buyer == null or event.actualNumberOfTickets >= event.maxNumberOfTickets}">
+                            Ticket kaufen
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:unless="${events != null and not #lists.isEmpty(events)}">
+                <td colspan="7" class="text-center">Noch keine Veranstaltungen hinzugefügt!</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
